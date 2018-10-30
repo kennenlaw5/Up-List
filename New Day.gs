@@ -40,6 +40,10 @@ function duplicate() {
   if (manualOverride) { sheetDate = month + '/' + day; }
   else {
     sheetDate = new Date();
+    if (sheetDate.toString().split(' ')[0] == 'Sun') {
+      Logger.log('Function will not execute automatically on Sundays!');
+      return;
+    }
     sheetDate = (sheetDate.getMonth() + 1) + '/' + sheetDate.getDate();
   }
   if (ss.getSheetByName(sheetDate) != null) {
