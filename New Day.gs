@@ -42,6 +42,10 @@ function duplicate() {
     sheetDate = new Date();
     sheetDate = (sheetDate.getMonth() + 1) + '/' + sheetDate.getDate();
   }
+  if (ss.getSheetByName(sheetDate) != null) {
+    throw 'The sheet "' + sheetDate + '" already exists. Manual Override is required.';
+    return;
+  }
   ss.setActiveSheet(master.copyTo(ss).setName(sheetDate))
   ss.moveActiveSheet(4);
 }
