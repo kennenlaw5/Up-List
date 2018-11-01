@@ -1,12 +1,12 @@
 function duplicate() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var ui = SpreadsheetApp.getUi();
   var master = ss.getSheetByName('MASTER');
   var sheetDate, month, day;
   var check = false;
   var manualOverride = false;
   
   while (!check && manualOverride) {
+    var ui = SpreadsheetApp.getUi();
     check = true;
     sheetDate = ui.prompt('Enter Date', 'Please enter the date in the format of M/D.'+
                           '\nFor consistency do not place a leading "0" on months or days less than 10.', ui.ButtonSet.OK_CANCEL);
