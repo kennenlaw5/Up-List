@@ -4,6 +4,7 @@ function duplicate() {
   var sheetDate, month, day;
   var check = false;
   var manualOverride = false;
+  var protections, p, p2, rangeNotation, newSheet;
   
   while (!check && manualOverride) {
     var ui = SpreadsheetApp.getUi();
@@ -20,7 +21,6 @@ function duplicate() {
     } else {
       month = sheetDate.split('/')[0];
       day = sheetDate.split('/')[1];
-      Logger.log(parseInt(month, 10) + ' ' + parseInt(day, 10));
       if (!isNaN(parseInt(month, 10)) && month.length > 1 && parseInt(month, 10) < 10 && month.indexOf('0') != -1) {
         month = month.replace('0','');
       }
@@ -41,7 +41,6 @@ function duplicate() {
   else {
     sheetDate = new Date();
     if (sheetDate.toString().split(' ')[0] == 'Sun') {
-      Logger.log('Function will not execute automatically on Sundays!');
       return;
     }
     sheetDate = (sheetDate.getMonth() + 1) + '/' + sheetDate.getDate();
@@ -50,6 +49,20 @@ function duplicate() {
     throw 'The sheet "' + sheetDate + '" already exists. Manual Override is required.';
     return;
   }
-  ss.setActiveSheet(master.copyTo(ss).setName(sheetDate))
+  newSheet = master.copyTo(ss).setName(sheetDate);
+  newSheet.activate();
+  protections = master.getProtections(SpreadsheetApp.ProtectionType.RANGE);
+  
+  for (var i = 0; i < protections.length; i++) {
+    p = protections[i];
+    rangeNotation = p.getRange().getA1Notation();
+    p2 = newSheet.getRange(rangeNotation).protect();
+    p2.setDescription(p.getDescription());
+    p2.setWarningOnly(p.isWarningOnly());
+    if (!p.isWarningOnly()) {
+      p2.removeEditors(p2.getEditors());  // remove editors 
+      p2.addEditors(p.getEditors());      // except those permitted for original
+    }
+  }
   ss.moveActiveSheet(4);
 }

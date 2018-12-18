@@ -9,6 +9,9 @@ function onOpen() {
   .addItem('Skip CA', 'skip')
   .addItem('30 Out', 'thirtyOut').addToUi();
   ss.setActiveSheet(ss.getSheets()[3]);
+  var sheetDate = new Date();
+  sheetDate = (sheetDate.getMonth() + 1) + '/' + sheetDate.getDate();
+  ss.setActiveSheet(ss.getSheetByName(sheetDate));
 }
 
 function menuItem1() {
