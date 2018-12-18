@@ -36,34 +36,34 @@ function summary(type, date, range) {
 
 function onEdit(e) {
   // created by Sean Lowe, 7/30/2018
+  // updated by Kennen Lawrence 12/18/18
   // if sheet name override is changed, reset functions to accomodate change
-  if (e == "Reset" || e.source.getSheetName() == "Summary") {
+  if (e == 'Reset' || (e.source.getSheetName() == 'Summary' && e.range.getA1Notation() == 'C2')) {
     var ss = SpreadsheetApp.getActiveSpreadsheet();
-    var name = "Summary";
+    var name = 'Summary';
     var sheet = ss.getSheetByName(name);
-    var range = sheet.getRange(6, 1, 1, 11).getFormulas();
+    var range = sheet.getRange(6, 1, 1, 11);
+    var formulas = range.getFormulas();
+    range.setValue('');
+    SpreadsheetApp.flush();
     var day = sheet.getRange(2, 3).getDisplayValue();
     var temp;
     var str = [[]];
-    for (var i = 0; i < range[0].length; i++) {
-      if (range[0][i] != "") {
+    for (var i = 0; i < formulas[0].length; i++) {
+      if (formulas[0][i] != '') {
         //Logger.log(range[0][i]);
-        temp = range[0][i].split(",");
+        temp = formulas[0][i].split(',');
         str[0][i] = temp[0] + ",$C$2,'" + day + "'!$A$3:$B)";
-        Logger.log(str);
       }
-      else { str[0][i] = ""; }
+      else { str[0][i] = ''; }
     }
-    sheet.getRange(6, 1, 1, 11).setFormulas(str);
+    range.setFormulas(str);
   }
-//  else {
-//    onEdit("Reset");
-//  }
 }
 
 function reset() {
-  SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Summary").getRange(2, 3).setValue("=TODAY()");
-  onEdit("Reset");
+  SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Summary').getRange(2, 3).setValue('=TODAY()');
+  onEdit('Reset');
 }
 
 function sweep() {

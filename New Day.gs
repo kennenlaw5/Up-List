@@ -51,6 +51,7 @@ function duplicate() {
   }
   newSheet = master.copyTo(ss).setName(sheetDate);
   newSheet.activate();
+  ss.moveActiveSheet(4);
   protections = master.getProtections(SpreadsheetApp.ProtectionType.RANGE);
   
   for (var i = 0; i < protections.length; i++) {
@@ -64,5 +65,6 @@ function duplicate() {
       p2.addEditors(p.getEditors());      // except those permitted for original
     }
   }
-  ss.moveActiveSheet(4);
+  SpreadsheetApp.flush();
+  reset();
 }

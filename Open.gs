@@ -3,7 +3,6 @@ function onOpen() {
   var ui = SpreadsheetApp.getUi();
   ui.createMenu('Utilities')
   .addSubMenu(ui.createMenu('Help').addItem('By Phone','menuItem1').addItem('By Email','menuItem2'))
-//  .addItem('New Day', 'duplicate')
   .addItem('Add CA', 'addCA')
   .addItem('Fresh Up', 'fresh')
   .addItem('Skip CA', 'skip')
@@ -11,7 +10,7 @@ function onOpen() {
   ss.setActiveSheet(ss.getSheets()[3]);
   var sheetDate = new Date();
   sheetDate = (sheetDate.getMonth() + 1) + '/' + sheetDate.getDate();
-  ss.setActiveSheet(ss.getSheetByName(sheetDate));
+  if (ss.getSheetByName(sheetDate) != null) { ss.getSheetByName(sheetDate).activate(); }
 }
 
 function menuItem1() {
