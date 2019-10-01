@@ -2,6 +2,7 @@ function onOpen() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var ui = SpreadsheetApp.getUi();
   ui.createMenu('Utilities')
+  .addItem('Duplicate Master', 'duplicate')
   .addSubMenu(ui.createMenu('Help').addItem('By Phone','menuItem1').addItem('By Email','menuItem2'))
   .addItem('Add CA', 'addCA')
   .addItem('Fresh Up', 'fresh')
